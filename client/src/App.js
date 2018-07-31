@@ -3,11 +3,11 @@ import React, { Component } from "react";
 class App extends Component {
   constructor(props) {
     super(props);
-    // Don't call this.setState() here!
     this.state = {
       alpha: "",
       beta: "",
-      gamma: ""
+      gamma: "",
+      data: null
     };
   }
 
@@ -27,7 +27,21 @@ class App extends Component {
 
       window.addEventListener("deviceorientation", this.onDeviceMotion, false);
     }
+
+    this.callBackendAPI()
+      .then(res => this.setState({ data: res.express }))
+      .catch(err => console.log(err));
   }
+
+  callBackendAPI = async () => {
+    const response = await fetch("/express_backend");
+    const body = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(body.message);
+    }
+    return body;
+  };
 
   log = str => {
     this.setState({ log: str });
@@ -47,6 +61,9 @@ class App extends Component {
         <div>direction: {Math.round(this.state.alpha)}</div>
         <div>front/back: {Math.round(this.state.beta)}</div>
         <div>left/right: {Math.round(this.state.gamma)}</div>
+        <br />
+        <h2>Server res</h2>
+        <div>{this.state.data}</div>
       </div>
     );
   }
