@@ -1,60 +1,35 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      alpha: "",
-      beta: "",
-      gamma: "",
-      data: null
-    };
-  }
+function App(props) {
+  const [orientation, setOrientation] = useState({
+    alpha: "",
+    beta: "",
+    gamma: ""
+  });
 
-  componentDidMount() {
+  const [log, setLog] = useState("N/A");
+
+  useEffect(() => {
     if ("DeviceOrientationEvent" in window) {
-      window.addEventListener("deviceorientation", this.onDeviceMotion, false);
+      window.addEventListener("deviceorientation", onDeviceMotion, false);
     }
+  }, []);
 
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
+  function onDeviceMotion({ alpha, beta, gamma }) {
+    setOrientation({ alpha, beta, gamma });
   }
 
-  callBackendAPI = async () => {
-    const response = await fetch("/express_backend");
-    const body = await response.json();
+  return (
+    <div className="App">
+      <h1>Laser controller</h1>
 
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-    return body;
-  };
-
-  log = str => {
-    this.setState({ log: str });
-  };
-
-  onDeviceMotion = ({ alpha, beta, gamma }) => {
-    this.setState({ alpha, beta, gamma });
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <h1>Laser Mandala</h1>
-        <div>log: {this.state.log}</div>
-        <br />
-        motion:
-        <div>direction: {Math.round(this.state.alpha)}</div>
-        <div>front/back: {Math.round(this.state.beta)}</div>
-        <div>left/right: {Math.round(this.state.gamma)}</div>
-        <br />
-        <h2>Server res</h2>
-        <div>{this.state.data}</div>
-      </div>
-    );
-  }
+      <div>direction: {Math.round(orientation.alpha)}</div>
+      <div>front/back: {Math.round(orientation.beta)}</div>
+      <div>left/right: {Math.round(orientation.gamma)}</div>
+      <br />
+      <div>log: {log}</div>
+    </div>
+  );
 }
 
 export default App;
