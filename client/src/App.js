@@ -12,25 +12,28 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if ("DeviceOrientationEvent" in window) {
-      // document.getElementById("moApi").innerHTML = "Device Motion API";
-
-      // var onDeviceMotion = function(eventData) {
-      //   accelerationHandler(eventData.acceleration, "moAccel");
-      //   accelerationHandler(
-      //     eventData.accelerationIncludingGravity,
-      //     "moAccelGrav"
-      //   );
-      //   rotationHandler(eventData.rotationRate);
-      //   intervalHandler(eventData.interval);
-      // };
-
-      window.addEventListener("deviceorientation", this.onDeviceMotion, false);
-    }
-
     this.callBackendAPI()
       .then(res => this.setState({ data: res.express }))
       .catch(err => console.log(err));
+    // if ("DeviceOrientationEvent" in window) {
+    //   // document.getElementById("moApi").innerHTML = "Device Motion API";
+
+    //   // var onDeviceMotion = function(eventData) {
+    //   //   accelerationHandler(eventData.acceleration, "moAccel");
+    //   //   accelerationHandler(
+    //   //     eventData.accelerationIncludingGravity,
+    //   //     "moAccelGrav"
+    //   //   );
+    //   //   rotationHandler(eventData.rotationRate);
+    //   //   intervalHandler(eventData.interval);
+    //   // };
+
+    //   window.addEventListener("deviceorientation", this.onDeviceMotion, false);
+    // }
+
+    // this.callBackendAPI()
+    //   .then(res => this.setState({ data: res.express }))
+    //   .catch(err => console.log(err));
   }
 
   callBackendAPI = async () => {
@@ -55,6 +58,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Laser Mandala</h1>
+        <h2>check</h2>
         <div>log: {this.state.log}</div>
         <br />
         motion:
