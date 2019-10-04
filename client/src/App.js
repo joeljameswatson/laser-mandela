@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
+
+let socket;
 
 function App(props) {
   const [orientation, setOrientation] = useState({
@@ -12,20 +15,22 @@ function App(props) {
   useEffect(() => {
     if ("DeviceOrientationEvent" in window) {
       window.addEventListener("deviceorientation", onDeviceMotion, false);
+      socket = io();
     }
   }, []);
 
   function onDeviceMotion({ alpha, beta, gamma }) {
     setOrientation({ alpha, beta, gamma });
+    socket.emit("orientation", { alpha, beta, gamma });
   }
 
   return (
     <div className="App">
       <h1>Laser controller</h1>
 
-      <div>direction: {Math.round(orientation.alpha)}</div>
-      <div>front/back: {Math.round(orientation.beta)}</div>
-      <div>left/right: {Math.round(orientation.gamma)}</div>
+      <div>direction (alpha): {Math.round(orientation.alpha)}</div>
+      <div>front/back (beta): {Math.round(orientation.beta)}</div>
+      <div>left/right (gamma): {Math.round(orientation.gamma)}</div>
       <br />
       <div>log: {log}</div>
     </div>

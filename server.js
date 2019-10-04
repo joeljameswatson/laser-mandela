@@ -1,14 +1,23 @@
+const app = require("express")();
+const fs = require("fs");
 const express = require("express");
-const app = express();
-const port = process.env.PORT || 5000;
-
-// console.log that your server is up and running
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const https = require("https").createServer(
+  {
+    key: fs.readFileSync("./key.pem"),
+    cert: fs.readFileSync("./cert.pem"),
+    passphrase: "abcd"
+  },
+  app
+);
 
 app.use(express.static("client/build"));
 
-// create a GET route
-app.get("/express_backend", (req, res) => {
-  console.log("request received");
-  res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
+const io = require("socket.io").listen(https);
+https.listen(3000, () => console.log(`listening on port: ${3000}`));
+
+io.sockets.on("connection", socket => {
+  console.log("client connected");
+  socket.on("orientation", ({ alpha, beta, gamma }) => {
+    console.log("orientation: ", alpha, beta, gamma);
+  });
 });
