@@ -29,11 +29,11 @@ motor1.run("fwd", cb);
 motor2.run("fwd", cb);
 
 function cb(err, result) {
-  if (err) {
-    console.log("err: ", err);
-  } else {
-    console.log("res: ", result);
-  }
+  // if (err) {
+  //   console.log("err: ", err);
+  // } else {
+  //   console.log("res: ", result);
+  // }
 }
 
 io.sockets.on("connection", socket => {
@@ -41,17 +41,18 @@ io.sockets.on("connection", socket => {
 
   // change speed on orientation input
   socket.on("orientation", ({ alpha, beta, gamma }) => {
-    let absAlpha = Math.abs(alpha);
-    if (absAlpha > 0 && absAlpha < 20) {
+    let absGamma = Math.abs(gamma);
+    console.log("absGamma: ", absGamma);
+    if (absGamma > 0 && absGamma < 20) {
       motor1.setSpeed(0, cb);
       motor2.setSpeed(0, cb);
-    } else if (absAlpha > 20 && absAlpha < 45) {
+    } else if (absGamma > 20 && absGamma < 45) {
       motor1.setSpeed(25, cb);
       motor2.setSpeed(0, cb);
-    } else if (absAlpha > 45 && absAlpha < 60) {
+    } else if (absGamma > 45 && absGamma < 60) {
       motor1.setSpeed(50, cb);
       motor2.setSpeed(75, cb);
-    } else if (absAlpha > 60) {
+    } else if (absGamma > 60) {
       motor1.setSpeed(50, cb);
       motor2.setSpeed(100, cb);
     }
