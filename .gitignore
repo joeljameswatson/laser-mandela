@@ -2,7 +2,9 @@
 
 # dependencies
 /node_modules
-*.pem
 
 # misc
 .DS_Store
+*.pem
+*.env
+

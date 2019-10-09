@@ -1,3 +1,4 @@
+require('dotenv').config();
 const app = require("express")();
 const fs = require("fs");
 const express = require("express");
@@ -5,7 +6,7 @@ const https = require("https").createServer(
   {
     key: fs.readFileSync("./key.pem"),
     cert: fs.readFileSync("./cert.pem"),
-    passphrase: "abcd"
+    passphrase: process.env.SSL_PASSPHRASE
   },
   app
 );
