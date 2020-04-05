@@ -40,6 +40,7 @@ io.sockets.on("connection", socket => {
   motor2.run("fwd", cb);
 
   socket.on("orientation", ({ state }) => {
+    console.log(state)
     if (state === 'stop') {
       motor1.setSpeed(0, cb);
       motor2.setSpeed(0, cb);
