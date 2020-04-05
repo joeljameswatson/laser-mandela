@@ -19,9 +19,33 @@ function App(props) {
     }
   }, []);
 
+
+
   function onDeviceMotion({ alpha, beta, gamma }) {
     setOrientation({ alpha, beta, gamma });
-    socket.emit("orientation", { alpha, beta, gamma });
+    const num = Math.abs(gamma)
+
+    let state = 'stop';
+
+    if (num > 10 && num<19 ) {
+
+      // triangle
+      state = 18
+    } else if (num > 18 && num < 27){
+
+      //square
+      state = 26
+    } else if (num > 26 && num < 49){
+
+      // oval
+      state = 48
+    }  else  if (num > 48 && num < 80 ){
+
+      // pentagon
+      state = 78
+    }
+
+    socket.emit("orientation", { state });
   }
 
   return (
