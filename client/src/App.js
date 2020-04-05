@@ -23,23 +23,24 @@ function App(props) {
 
   function onDeviceMotion({ alpha, beta, gamma }) {
    
-    const num = Math.abs(gamma)
+    // const num = Math.abs(gamma)
+    const num = gamma
 
     let s = 'stop';
 
-    if (num > 10 && num<19 ) {
+    if (num > 60 && num < 65 ) {
 
       // triangle
       s = 18
-    } else if (num > 18 && num < 27){
+    } else if (num > 65 && num < 75){
 
       //square
       s = 26
-    } else if (num > 26 && num < 49){
+    } else if (num > 75 && num < 85){
 
       // oval
       s = 48
-    }  else  if (num > 48 && num < 80 ){
+    }  else  if (num > 85 && num < 90 ){
 
       // pentagon
       s = 78
