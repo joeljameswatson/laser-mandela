@@ -39,17 +39,14 @@ io.sockets.on("connection", socket => {
   motor1.run("fwd", cb);
   motor2.run("fwd", cb);
 
-  socket.on("orientation", (e) => {
-    console.log('orientation event', e)
-    motor1.setSpeed(0, cb);
+  socket.on("orientation", ({ state }) => {
+    if (state === 'stop') {
+      motor1.setSpeed(0, cb);
       motor2.setSpeed(0, cb);
-    // if (state === 'stop') {
-    //   motor1.setSpeed(0, cb);
-    //   motor2.setSpeed(0, cb);
-    // } else{
-    //   motor1.setSpeed(50, cb);
-    //   // Adjust motor2 from 0% to 90% to create different patterns
-    //   motor2.setSpeed(Math.round(state), cb);
-    // }
+    } else{
+      motor1.setSpeed(50, cb);
+      // Adjust motor2 from 0% to 90% to create different patterns
+      motor2.setSpeed(Math.round(state), cb);
+    }
   });
 });

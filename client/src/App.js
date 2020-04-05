@@ -47,7 +47,7 @@ function App(props) {
 
     setOrientation({ alpha, beta, gamma });
 
-    socket.emit("orientation", { s });
+    socket.emit("orientation", { state });
   }
 
   return (
