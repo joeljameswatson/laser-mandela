@@ -45,7 +45,7 @@ function App(props) {
       state = 78
     }
 
-    socket.emit("orientation", {state: state });
+    socket.emit("orientation", { state });
   }
 
   return (

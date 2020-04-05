@@ -39,8 +39,8 @@ io.sockets.on("connection", socket => {
   motor1.run("fwd", cb);
   motor2.run("fwd", cb);
 
-  socket.on("orientation", ({ state }) => {
-    console.log(state)
+  socket.on("orientation", (e) => {
+    console.log('orientation event', e)
     motor1.setSpeed(0, cb);
       motor2.setSpeed(0, cb);
     // if (state === 'stop') {
