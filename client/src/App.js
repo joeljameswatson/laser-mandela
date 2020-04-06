@@ -21,7 +21,7 @@ function App(props) {
   }, []);
 
   function onDeviceMotion({ alpha, beta, gamma }) {
-    if(!active) {
+    if(!isActive) {
       socket.emit("orientation", { speed: 0 });
       return
     }
