@@ -39,14 +39,14 @@ io.sockets.on("connection", socket => {
   motor1.run("fwd", cb);
   motor2.run("fwd", cb);
 
-  socket.on("orientation", ({ state }) => {
-    if (state === 'stop') {
+  socket.on("orientation", ({ speed }) => {
+    if (!speed) {
       motor1.setSpeed(0, cb);
       motor2.setSpeed(0, cb);
-    } else{
+    } else {
       motor1.setSpeed(50, cb);
       // Adjust motor2 from 0% to 90% to create different patterns
-      motor2.setSpeed(Math.round(state), cb);
+      motor2.setSpeed(Math.round(speed), cb);
     }
   });
 });

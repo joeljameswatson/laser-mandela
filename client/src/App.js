@@ -11,6 +11,7 @@ function App(props) {
   });
 
   const [log, setLog] = useState("N/A");
+  const [isActive, setIsActive] = useState(true)
 
   useEffect(() => {
     if ("DeviceOrientationEvent" in window) {
@@ -19,36 +20,35 @@ function App(props) {
     }
   }, []);
 
-
-
   function onDeviceMotion({ alpha, beta, gamma }) {
-   
-    // const num = Math.abs(gamma)
+    if(!active) {
+      socket.emit("orientation", { speed: 0 });
+      return
+    }
+
     const num = gamma
+    let speed = 0
 
-    let s = 'stop';
-
-    if (num > 60 && num < 65 ) {
-
+    if (num > -90 && num < -80) {
       // triangle
-      s = 18
-    } else if (num > 65 && num < 75){
-
-      //square
-      s = 26
-    } else if (num > 75 && num < 85){
-
+      speed = 18
+    } else if (num > -80 && num < -65) {
       // oval
-      s = 48
-    }  else  if (num > 85 && num < 90 ){
-
+      speed = 48
+    } else if (num > -65 && num < 65) {
+      // stop
+      speed = 0
+    } else if (num > 65 && num < 80) {
+      //square
+      speed = 26
+    } else if (num > 80) {
       // pentagon
-      s = 78
+      speed = 78
     }
 
     setOrientation({ alpha, beta, gamma });
 
-    socket.emit("orientation", { state });
+    socket.emit("orientation", { speed });
   }
 
   return (
@@ -60,6 +60,9 @@ function App(props) {
       <div>left/right (gamma): {Math.round(orientation.gamma)}</div>
       <br />
       <div>log: {log}</div>
+      <button onClick={() => setIsActive(!isActive)}>
+        <span>{isActive ? 'STOP' : 'START'}</span>
+      </button>
     </div>
   );
 }
